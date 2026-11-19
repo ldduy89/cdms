@@ -22,7 +22,7 @@ public class ProductUnit extends BaseEntity {
     @Column(name = "id") 
     private Long productUnitId;
 
-    @Column(nullable = false)
+    @Column(nullable = false,  unique = true)
     private String code;
 
     @Column(nullable = false)

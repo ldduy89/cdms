@@ -28,7 +28,7 @@ public class Product extends BaseEntity{
     @Column(name = "id") 
     private Long productId;
 
-    @Column(nullable = true)
+    @Column(nullable = true,  unique = true)
     private String sku;
 
     @Column(nullable = true, name = "partner_sku")

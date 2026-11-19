@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "product_unit")
+@Table(name = "product_uom")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor @Builder
 public class ProductUOM extends BaseEntity {
@@ -61,7 +61,7 @@ public class ProductUOM extends BaseEntity {
     private Product product;
     
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "unitCode", referencedColumnName = "code", nullable = false)
+    @JoinColumn(name = "unit_code", referencedColumnName = "code", nullable = false)
     private ProductUnit unit;
     
 }
