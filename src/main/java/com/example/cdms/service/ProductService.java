@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.cdms.dto.ProductRequest;
 import com.example.cdms.dto.ProductResponse;
+import com.example.cdms.dto.ProductUnitResponse;
 
 
 public interface ProductService {
@@ -11,4 +12,5 @@ public interface ProductService {
     ProductResponse findByPartnerSKU(String partnerSKU);
     ProductResponse create(ProductRequest request);
     ProductResponse update(Long id, ProductRequest request);
+    List<ProductUnitResponse> findAllProductUnit();
 }

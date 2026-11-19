@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.cdms.dto.ProductRequest;
 import com.example.cdms.dto.ProductResponse;
+import com.example.cdms.dto.ProductUnitResponse;
 import com.example.cdms.service.ProductService;
 
 import jakarta.validation.Valid;
@@ -40,5 +41,10 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(request));
     }
 
+
+    @GetMapping("/units")
+    public List<ProductUnitResponse> getAllUnit() {
+        return productService.findAllProductUnit();
+    }
 	
 }
