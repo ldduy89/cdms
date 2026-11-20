@@ -5,10 +5,9 @@ import java.util.List;
 
 import com.example.cdms.enums.AssetType;
 import com.example.cdms.enums.OutboundType;
-import com.example.cdms.enums.SerialType;
-import com.example.cdms.enums.WarehouseCategoryType;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CheckConstraint;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,8 +36,6 @@ public class Product extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long productId;
-
-    // ===== Thông tin cơ bản =====
 
     @Column(nullable = false, unique = true, length = 100)
     private String sku;
@@ -87,50 +84,50 @@ public class Product extends BaseEntity {
     @Column(name = "asset_type", length = 30)
     private AssetType assetType;
 
-    @Column(name = "serial_type")
-    private SerialType serialType;
+    @Column(name = "serial_type", check = @CheckConstraint(name = "chk_product_serial_type", constraint = "serial_type IN (1, 2)"))
+    private Integer serialType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "outbound_type", length = 20)
     private OutboundType outboundType;
 
     @Column(name = "warehouse_category")
-    private WarehouseCategoryType warehouseCategory;
+    private Integer warehouseCategory;
 
     @Builder.Default
-    @Column(name = "is_physical", nullable = false)
+    @Column(name = "is_physical")
     private Boolean isPhysical = true;
 
     @Builder.Default
-    @Column(name = "is_bar_code", nullable = false)
+    @Column(name = "is_bar_code")
     private Boolean isBarCode = false;
 
     @Builder.Default
-    @Column(name = "is_discreet", nullable = false)
+    @Column(name = "is_discreet")
     private Boolean isDiscreet = false;
 
     @Builder.Default
-    @Column(name = "is_ignore_received_date", nullable = false)
+    @Column(name = "is_ignore_received_date")
     private Boolean isIgnoreReceivedDate = true;
 
     @Builder.Default
-    @Column(name = "is_ignore_ir_id", nullable = false)
+    @Column(name = "is_ignore_ir_id")
     private Boolean isIgnoreIRId = true;
 
     @Builder.Default
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active")
     private Boolean isActive = true;
     
     @Builder.Default
-    @Column(name = "has_serial", nullable = false)
+    @Column(name = "has_serial")
     private Boolean hasSerial = false;
 
     @Builder.Default
-    @Column(name = "has_expiration", nullable = false)
+    @Column(name = "has_expiration")
     private Boolean hasExpiration = false;
 
     @Builder.Default
-    @Column(name = "is_lot_number", nullable = false)
+    @Column(name = "is_lot_number")
     private Boolean isLotNumber = false;
 
     @Column(name = "min_inbound_shelf_life")

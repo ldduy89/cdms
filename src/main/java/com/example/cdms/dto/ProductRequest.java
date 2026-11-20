@@ -20,9 +20,9 @@ public record ProductRequest(
         @NotBlank String productName,
         Integer serialType, 
         OutboundType outboundType, 
-        boolean isExpiryDate,
-        boolean isLotNumber,
-        boolean isTrackingSerial,
+        Boolean isExpiryDate,
+        Boolean isLotNumber,
+        Boolean isTrackingSerial,
         Integer numDaysWarningExpDate,
         Integer numDaysExportBeforeExpDate,
         String packingNote,
@@ -35,9 +35,9 @@ public record ProductRequest(
         @Valid List<ProductBundleItemRequest> productBundles,
         Integer minInboundShelfLife,
         Integer minOutboundShelfLife,
-        boolean isBarCode,
+        Boolean isBarCode,
         Integer warehouseCategory, 
-        boolean isDiscreet,
+        Boolean isDiscreet,
         Boolean isIgnoreReceivedDate,
         Boolean isIgnoreIRId,
         String hsCode,
@@ -54,9 +54,11 @@ public record ProductRequest(
 ) {
 
     public ProductRequest {
-        if (isPhysical == null) isPhysical = true;
-        if (isIgnoreReceivedDate == null) isIgnoreReceivedDate = true;
-        if (isIgnoreIRId == null) isIgnoreIRId = true;
+        if (isExpiryDate == null) isExpiryDate = false;
+        if (isLotNumber == null) isLotNumber = false;
+        if (isTrackingSerial == null) isTrackingSerial = false;
+        if (isBarCode == null) isBarCode = false;
+        if (isDiscreet == null) isDiscreet = false;
     }
 
     public record ProductBundleItemRequest(

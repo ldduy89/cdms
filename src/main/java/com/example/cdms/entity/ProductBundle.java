@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "product_bundle")
+@Table(name = "product_bundle",
+uniqueConstraints = @UniqueConstraint(
+        name = "uk_product_bundle_parent_sku",
+        columnNames = {"parent_sku", "sku"}))
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor @Builder
 public class ProductBundle extends BaseEntity {
@@ -18,8 +21,12 @@ public class ProductBundle extends BaseEntity {
     private Long productBundleId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sku", referencedColumnName = "sku")
+    @JoinColumn(name = "parent_sku", referencedColumnName = "sku")
     private Product product;
+
+
+    @Column(nullable = false, length = 100)
+    private String sku;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_code", referencedColumnName = "code")
