@@ -19,7 +19,7 @@ import lombok.Setter;
 public class ProductUnit extends BaseEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id") 
+    @Column(name = "product_unit_id") 
     private Long productUnitId;
 
     @Column(nullable = false,  unique = true)

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.cdms.dto.ProductCategoryResponse;
 import com.example.cdms.dto.ProductRequest;
 import com.example.cdms.dto.ProductResponse;
 import com.example.cdms.dto.ProductUnitResponse;
@@ -37,14 +38,18 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponse> create(@Valid @RequestBody ProductRequest request) {
+    public ResponseEntity<ProductResponse> create(@Valid @RequestBody List<ProductRequest> request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(request));
     }
 
-
     @GetMapping("/units")
     public List<ProductUnitResponse> getAllUnit() {
-        return productService.findAllProductUnit();
+        return productService.findAllProductUnits();
+    }
+
+    @GetMapping("/categories")
+    public List<ProductCategoryResponse> getAllCategories() {
+        return productService.findAllProductCategories();
     }
 	
 }

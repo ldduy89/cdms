@@ -21,11 +21,11 @@ import lombok.Setter;
 @Table(name = "product_uom")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor @Builder
-public class ProductUOM extends BaseEntity {
+public class ProductUom extends BaseEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id") 
-    private Long productUOMId;
+    @Column(name = "product_uom_id") 
+    private Long productUomId;
 	
 	@Column(name = "base_unit_qty", nullable = true)
     private Integer baseUnitQty;
