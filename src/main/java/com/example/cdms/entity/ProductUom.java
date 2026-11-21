@@ -19,49 +19,52 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "product_uom")
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProductUom extends BaseEntity {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_uom_id") 
-    private Long productUomId;
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "product_uom_id")
+	private Long productUomId;
+
 	@Column(name = "base_unit_qty", nullable = true)
-    private Integer baseUnitQty;
+	private Integer baseUnitQty;
 
-    @Column(nullable = true)
-    private Double length;
+	@Column(nullable = true)
+	private Double length;
 
-    @Column(nullable = true)
-    private Double width;
+	@Column(nullable = true)
+	private Double width;
 
-    @Column(nullable = true)
-    private Double height;
+	@Column(nullable = true)
+	private Double height;
 
-    @Column(nullable = true)
-    private Double weight;
+	@Column(nullable = true)
+	private Double weight;
 
-    @Column(name = "cost_price", nullable = true)
-    private BigDecimal costPrice;
+	@Column(name = "cost_price", nullable = true)
+	private BigDecimal costPrice;
 
-    @Column(name = "selling_price", nullable = true)
-    private BigDecimal sellingPrice;
+	@Column(name = "selling_price", nullable = true)
+	private BigDecimal sellingPrice;
 
-    @Builder.Default
-    @Column(name = "is_base_unit")
-    private Boolean isBaseUnit = true;
+	@Builder.Default
+	@Column(name = "is_base_unit")
+	private Boolean isBaseUnit = true;
 
-    @Builder.Default
-    @Column(name = "is_stock_conversion_enabled")
-    private Boolean isStockConversionEnabled = true;
+	@Builder.Default
+	@Column(name = "is_stock_conversion_enabled")
+	private Boolean isStockConversionEnabled = true;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "sku", referencedColumnName = "sku", nullable = false)
-    private Product product;
-    
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "unit_code", referencedColumnName = "code", nullable = false)
-    private ProductUnit unit;
-    
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "product_id", nullable = false)
+	private Product product;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "unit_code", referencedColumnName = "code", nullable = false)
+	private ProductUnit unit;
+
 }

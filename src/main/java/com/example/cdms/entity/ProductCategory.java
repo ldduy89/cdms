@@ -14,18 +14,21 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "product_category")
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProductCategory {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_category_id")
-    private Long productCategorygId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "product_category_id")
+	private Long productCategorygId;
 
-    @Column(name = "code", length = 50, nullable = false,  unique = true)
-    private String code;
+	@Column(name = "code", length = 50, nullable = false, unique = true)
+	private String code;
 
-    @Column(name = "name")
-    private String name;
+	@Column(name = "name")
+	private String name;
 }

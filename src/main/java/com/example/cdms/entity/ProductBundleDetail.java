@@ -19,26 +19,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "product_bundle_detail",
-uniqueConstraints = @UniqueConstraint(
-        name = "uk_product_bundle_detail_sale_price_product_bundle_id",
-        columnNames = {"sale_price", "product_bundle_id"}))
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@Table(name = "product_bundle_detail", uniqueConstraints = @UniqueConstraint(name = "uk_product_bundle_detail_sale_price_product_bundle_id", columnNames = {
+		"sale_price", "product_bundle_id" }))
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProductBundleDetail extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_bundle_detail_id")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "product_bundle_detail_id")
+	private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_bundle_id", nullable = false)
-    private ProductBundle productBundle;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "product_bundle_id", nullable = false)
+	private ProductBundle productBundle;
 
-    @Column(name = "qty")
-    private Integer qty;
+	@Column(name = "qty")
+	private Integer qty;
 
-    @Column(name = "sale_price", nullable = false, precision = 19, scale = 2)
-    private BigDecimal salePrice;
+	@Column(name = "sale_price", nullable = false, precision = 19, scale = 2)
+	private BigDecimal salePrice;
 }

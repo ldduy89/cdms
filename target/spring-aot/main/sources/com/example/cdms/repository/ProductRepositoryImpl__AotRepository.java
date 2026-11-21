@@ -1,8 +1,10 @@
 package com.example.cdms.repository;
 
+import com.example.cdms.entity.Product;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import java.lang.String;
+import java.util.Optional;
 import org.springframework.aot.generate.Generated;
 import org.springframework.data.jpa.repository.aot.AotRepositoryFragmentSupport;
 import org.springframework.data.jpa.repository.query.QueryEnhancerSelector;
@@ -34,5 +36,16 @@ public class ProductRepositoryImpl__AotRepository extends AotRepositoryFragmentS
     query.setMaxResults(1);
 
     return !query.getResultList().isEmpty();
+  }
+
+  /**
+   * AOT generated implementation of {@link ProductRepository#findByPartnerSKU(java.lang.String)}.
+   */
+  public Optional<Product> findByPartnerSKU(String partnerSKU) {
+    String queryString = "SELECT p FROM Product p WHERE p.partnerSKU = :partnerSKU";
+    Query query = this.entityManager.createQuery(queryString);
+    query.setParameter("partnerSKU", partnerSKU);
+
+    return Optional.ofNullable((Product) convertOne(query.getSingleResultOrNull(), false, Product.class));
   }
 }

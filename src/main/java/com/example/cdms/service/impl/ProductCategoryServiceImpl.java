@@ -22,41 +22,40 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class ProductCategoryServiceImpl implements ProductCategoryService {
-	
-    private final ProductCategoryRepository productCategoryRepository;
-	
+
+	private final ProductCategoryRepository productCategoryRepository;
+
 	@Override
 	public void ensureCategories(List<ProductRequest> requests) {
 		Map<String, String> names = new LinkedHashMap<>();
 		for (ProductRequest r : requests) {
-			
-			for(ProductCategoryRequest c: r.categories()) {
+
+			for (ProductCategoryRequest c : r.categories()) {
 				String code = c.code();
 				String name = c.name();
 				String current = names.get(code);
-				
+
 				if (code != null && !code.isBlank() && name != null && !name.isBlank() && current == null) {
 					names.put(code, name);
-		        }
+				}
 			}
-			
-	    }
-		
+
+		}
+
 		Set<String> existing = productCategoryRepository.findByCodeIn(names.keySet()).stream()
-		            .map(ProductCategory::getCode)
-		            .collect(Collectors.toSet());
+				.map(ProductCategory::getCode).collect(Collectors.toSet());
 		List<ProductCategory> toCreate = new ArrayList<>();
-		
+
 		for (Map.Entry<String, String> e : names.entrySet()) {
-	        if (existing.contains(e.getKey())) {
-	            continue;
-	        }
-	        toCreate.add(ProductCategory.builder().code(e.getKey()).name(e.getValue()).build());
-	    }
+			if (existing.contains(e.getKey())) {
+				continue;
+			}
+			toCreate.add(ProductCategory.builder().code(e.getKey()).name(e.getValue()).build());
+		}
 		if (!toCreate.isEmpty()) {
 			productCategoryRepository.saveAllAndFlush(toCreate);
-	    }
-		
+		}
+
 	}
 
 }

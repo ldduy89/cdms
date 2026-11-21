@@ -1,5 +1,5 @@
 package com.example.cdms.dto;
 
-public record ProductUnitResponse (String code, String name){
+public record ProductUnitResponse(String code, String name) {
 
 }

@@ -14,17 +14,20 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "product_unit")
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProductUnit extends BaseEntity {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_unit_id") 
-    private Long productUnitId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "product_unit_id")
+	private Long productUnitId;
 
-    @Column(nullable = false,  unique = true)
-    private String code;
+	@Column(nullable = false, unique = true)
+	private String code;
 
-    @Column(nullable = false)
-    private String name;
+	@Column(nullable = false)
+	private String name;
 }

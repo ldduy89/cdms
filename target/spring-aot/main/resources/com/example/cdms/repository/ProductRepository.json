@@ -11,6 +11,13 @@
       }
     },
     {
+      "name": "findByPartnerSKU",
+      "signature": "public abstract java.util.Optional<com.example.cdms.entity.Product> com.example.cdms.repository.ProductRepository.findByPartnerSKU(java.lang.String)",
+      "query": {
+        "query": "SELECT p FROM Product p WHERE p.partnerSKU = :partnerSKU"
+      }
+    },
+    {
       "name": "deleteAllByIdInBatch",
       "signature": "org.springframework.data.jpa.repository.support.SimpleJpaRepository",
       "fragment": {

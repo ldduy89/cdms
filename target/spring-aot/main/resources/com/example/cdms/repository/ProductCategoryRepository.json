@@ -4,6 +4,20 @@
   "type": "IMPERATIVE",
   "methods": [
     {
+      "name": "findByCode",
+      "signature": "public abstract java.util.Optional<com.example.cdms.entity.ProductCategory> com.example.cdms.repository.ProductCategoryRepository.findByCode(java.lang.String)",
+      "query": {
+        "query": "SELECT p FROM ProductCategory p WHERE p.code = :code"
+      }
+    },
+    {
+      "name": "findByCodeIn",
+      "signature": "public abstract java.util.List<com.example.cdms.entity.ProductCategory> com.example.cdms.repository.ProductCategoryRepository.findByCodeIn(java.util.Collection<java.lang.String>)",
+      "query": {
+        "query": "SELECT p FROM ProductCategory p WHERE p.code IN :codes"
+      }
+    },
+    {
       "name": "deleteAllByIdInBatch",
       "signature": "org.springframework.data.jpa.repository.support.SimpleJpaRepository",
       "fragment": {

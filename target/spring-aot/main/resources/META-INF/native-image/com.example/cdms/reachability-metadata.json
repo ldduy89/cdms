@@ -57,6 +57,13 @@
           "parameterTypes": [
             "java.lang.String"
           ]
+        },
+        {
+          "name": "update",
+          "parameterTypes": [
+            "java.lang.Long",
+            "com.example.cdms.dto.ProductRequest"
+          ]
         }
       ]
     },
@@ -86,6 +93,25 @@
         },
         {
           "name": "name",
+          "parameterTypes": [ ]
+        }
+      ]
+    },
+    {
+      "type": "com.example.cdms.dto.ProductCreateResponse",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true,
+      "methods": [
+        {
+          "name": "partnerSKU",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "productId",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "sku",
           "parameterTypes": [ ]
         }
       ]
@@ -379,7 +405,230 @@
       "allDeclaredConstructors": true,
       "methods": [
         {
+          "name": "assetType",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "avatarURL",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "categories",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "color",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "countryOfOrigin",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "description",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "hsCode",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "isActive",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "isAttribute",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "isDiscreet",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "isExpiryDate",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "isLotNumber",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "isPhysical",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "isTrackingSerial",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "numDaysExportBeforeExpDate",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "numDaysWarningExpDate",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "outboundType",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "packingNote",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "parentPartnerSKU",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "partnerSKU",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "productBarcodes",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "productBundles",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "productId",
+          "parameterTypes": [ ]
+        },
+        {
           "name": "productName",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "refCode",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "size",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "sku",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "units",
+          "parameterTypes": [ ]
+        }
+      ]
+    },
+    {
+      "type": "com.example.cdms.dto.ProductResponse$BundleDetailResponse",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true,
+      "methods": [
+        {
+          "name": "qty",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "salePrice",
+          "parameterTypes": [ ]
+        }
+      ]
+    },
+    {
+      "type": "com.example.cdms.dto.ProductResponse$CategoryResponse",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true,
+      "methods": [
+        {
+          "name": "categoryCode",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "categoryName",
+          "parameterTypes": [ ]
+        }
+      ]
+    },
+    {
+      "type": "com.example.cdms.dto.ProductResponse$ProductBarcodeResponse",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true,
+      "methods": [
+        {
+          "name": "partnerSKU",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "productId",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "productName",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "sku",
+          "parameterTypes": [ ]
+        }
+      ]
+    },
+    {
+      "type": "com.example.cdms.dto.ProductResponse$ProductBundleResponse",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true,
+      "methods": [
+        {
+          "name": "availablePercentage",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "bundleDetails",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "qty",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "sku",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "unitCode",
+          "parameterTypes": [ ]
+        }
+      ]
+    },
+    {
+      "type": "com.example.cdms.dto.ProductResponse$UnitResponse",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true,
+      "methods": [
+        {
+          "name": "height",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "isStockConversionEnabled",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "length",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "unitCode",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "unitName",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "weight",
+          "parameterTypes": [ ]
+        },
+        {
+          "name": "width",
           "parameterTypes": [ ]
         }
       ]
@@ -806,7 +1055,7 @@
         {
           "name": "setSerialType",
           "parameterTypes": [
-            "com.example.cdms.enums.SerialType"
+            "java.lang.Integer"
           ]
         },
         {
@@ -836,7 +1085,7 @@
         {
           "name": "setWarehouseCategory",
           "parameterTypes": [
-            "com.example.cdms.enums.WarehouseCategoryType"
+            "java.lang.Integer"
           ]
         }
       ]
@@ -986,6 +1235,10 @@
           "parameterTypes": [ ]
         },
         {
+          "name": "getSku",
+          "parameterTypes": [ ]
+        },
+        {
           "name": "getUnit",
           "parameterTypes": [ ]
         },
@@ -1017,6 +1270,12 @@
           "name": "setQty",
           "parameterTypes": [
             "java.lang.Integer"
+          ]
+        },
+        {
+          "name": "setSku",
+          "parameterTypes": [
+            "java.lang.String"
           ]
         },
         {
@@ -1446,7 +1705,13 @@
       "allPublicMethods": true,
       "methods": [
         {
-          "name": "getCode",
+          "name": "fromValue",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "getValue",
           "parameterTypes": [ ]
         },
         {
@@ -1483,51 +1748,24 @@
       ]
     },
     {
-      "type": "com.example.cdms.enums.SerialType",
-      "allDeclaredFields": true,
-      "allPublicConstructors": true,
-      "allDeclaredConstructors": true,
-      "allPublicMethods": true,
+      "type": "com.example.cdms.exception.GlobalExceptionHandler",
       "methods": [
         {
-          "name": "fromCode",
+          "name": "handleIDuplicateKey",
           "parameterTypes": [
-            "java.lang.Integer"
+            "org.springframework.dao.DuplicateKeyException"
           ]
         },
         {
-          "name": "getCode",
-          "parameterTypes": [ ]
-        },
-        {
-          "name": "valueOf",
+          "name": "handleIllegalArgument",
           "parameterTypes": [
-            "java.lang.String"
-          ]
-        }
-      ]
-    },
-    {
-      "type": "com.example.cdms.enums.WarehouseCategoryType",
-      "allDeclaredFields": true,
-      "allPublicConstructors": true,
-      "allDeclaredConstructors": true,
-      "allPublicMethods": true,
-      "methods": [
-        {
-          "name": "fromCode",
-          "parameterTypes": [
-            "java.lang.Integer"
+            "java.lang.IllegalArgumentException"
           ]
         },
         {
-          "name": "getCode",
-          "parameterTypes": [ ]
-        },
-        {
-          "name": "valueOf",
+          "name": "handleNotFound",
           "parameterTypes": [
-            "java.lang.String"
+            "com.example.cdms.exception.ResourceNotFoundException"
           ]
         }
       ]
@@ -1562,6 +1800,21 @@
       "allDeclaredMethods": true
     },
     {
+      "type": "com.example.cdms.repository.jdbc.ProductBulkInserter$$SpringCGLIB$$1",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true
+    },
+    {
+      "type": "com.example.cdms.repository.ProductBarcodeRepository",
+      "allPublicMethods": true
+    },
+    {
+      "type": "com.example.cdms.repository.ProductBarcodeRepositoryImpl__AotRepository",
+      "allDeclaredConstructors": true,
+      "allPublicMethods": true
+    },
+    {
       "type": "com.example.cdms.repository.ProductCategoryRepository",
       "allPublicMethods": true
     },
@@ -1589,9 +1842,25 @@
       "allPublicMethods": true
     },
     {
-      "type": "com.example.cdms.service.impl.ProductServiceImpl",
+      "type": "com.example.cdms.service.impl.ProductCategoryServiceImpl",
       "allPublicMethods": true,
       "allDeclaredMethods": true
+    },
+    {
+      "type": "com.example.cdms.service.impl.ProductCategoryServiceImpl$$SpringCGLIB$$0",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true
+    },
+    {
+      "type": "com.example.cdms.service.impl.ProductServiceImpl",
+      "allPublicMethods": true,
+      "allDeclaredMethods": true,
+      "fields": [
+        {
+          "name": "entityManager"
+        }
+      ]
     },
     {
       "type": "com.example.cdms.service.impl.ProductServiceImpl$$SpringCGLIB$$0",
@@ -1600,7 +1869,26 @@
       "allDeclaredMethods": true
     },
     {
+      "type": "com.example.cdms.service.impl.ProductUnitServiceImpl",
+      "allPublicMethods": true,
+      "allDeclaredMethods": true
+    },
+    {
+      "type": "com.example.cdms.service.impl.ProductUnitServiceImpl$$SpringCGLIB$$0",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true,
+      "allDeclaredMethods": true
+    },
+    {
+      "type": "com.example.cdms.service.ProductCategoryService",
+      "allDeclaredMethods": true
+    },
+    {
       "type": "com.example.cdms.service.ProductService",
+      "allDeclaredMethods": true
+    },
+    {
+      "type": "com.example.cdms.service.ProductUnitService",
       "allDeclaredMethods": true
     },
     {
@@ -5768,9 +6056,6 @@
           ]
         }
       ]
-    },
-    {
-      "type": "org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration"
     },
     {
       "type": "org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$PersistenceManagedTypesConfiguration"
@@ -10391,9 +10676,6 @@
       "type": "org.springframework.orm.jpa.SharedEntityManagerCreator"
     },
     {
-      "type": "org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor"
-    },
-    {
       "type": "org.springframework.scheduling.annotation.AsyncConfigurer"
     },
     {
@@ -10535,12 +10817,6 @@
     },
     {
       "type": "org.springframework.web.context.ConfigurableWebApplicationContext"
-    },
-    {
-      "type": "org.springframework.web.context.request.AsyncWebRequestInterceptor"
-    },
-    {
-      "type": "org.springframework.web.context.request.WebRequestInterceptor"
     },
     {
       "type": "org.springframework.web.context.ServletContextAware"
@@ -10834,6 +11110,39 @@
           "name": "UPPER_SNAKE_CASE"
         }
       ]
+    },
+    {
+      "type": {
+        "proxy": [
+          "com.example.cdms.repository.ProductBarcodeRepository",
+          "org.springframework.aop.SpringProxy",
+          "org.springframework.aop.framework.Advised",
+          "org.springframework.core.DecoratingProxy"
+        ]
+      }
+    },
+    {
+      "type": {
+        "proxy": [
+          "com.example.cdms.repository.ProductBarcodeRepository",
+          "org.springframework.data.repository.Repository",
+          "org.springframework.transaction.interceptor.TransactionalProxy",
+          "org.springframework.aop.framework.Advised",
+          "org.springframework.core.DecoratingProxy"
+        ]
+      }
+    },
+    {
+      "type": {
+        "proxy": [
+          "com.example.cdms.repository.ProductBarcodeRepository",
+          "org.springframework.data.repository.Repository",
+          "org.springframework.transaction.interceptor.TransactionalProxy",
+          "org.springframework.aop.framework.Advised",
+          "org.springframework.core.DecoratingProxy",
+          "java.io.Serializable"
+        ]
+      }
     },
     {
       "type": {
