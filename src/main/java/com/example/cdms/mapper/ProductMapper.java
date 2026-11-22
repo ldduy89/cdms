@@ -31,8 +31,6 @@ public interface ProductMapper {
     @Mapping(target = "sku", source = "childProduct.sku")
     ProductBundleResponse toBundle(ProductBundle bundle);
 
-    @Mapping(target = "isExpiryDate", source = "hasExpiration")
-    @Mapping(target = "isTrackingSerial", source = "hasSerial")
     @Mapping(target = "avatarURL", source = "avatarUrl")
     @Mapping(target = "isAttribute", ignore = true)
     @Mapping(target = "parentPartnerSKU", ignore = true)
@@ -50,8 +48,6 @@ public interface ProductMapper {
     @Mapping(target = "productBundles", ignore = true)
     @Mapping(target = "barcodes", ignore = true)
     @Mapping(target = "avatarUrl", source = "avatarURL")
-    @Mapping(target = "hasSerial", source = "isTrackingSerial")
-    @Mapping(target = "hasExpiration", source = "isExpiryDate")
     Product toEntity(ProductRequest request);
     
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -63,7 +59,5 @@ public interface ProductMapper {
     @Mapping(target = "barcodes", ignore = true)
     @Mapping(target = "isActive", ignore = true)
     @Mapping(target = "avatarUrl", source = "avatarURL")
-    @Mapping(target = "hasSerial", source = "isTrackingSerial")
-    @Mapping(target = "hasExpiration", source = "isExpiryDate")
     void updateEntity(ProductRequest request, @MappingTarget Product product);
 }

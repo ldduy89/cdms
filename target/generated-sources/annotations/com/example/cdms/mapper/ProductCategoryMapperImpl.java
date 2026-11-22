@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-11-21T15:20:20+0700",
+    date = "2026-11-21T23:33:08+0700",
     comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.46.100.v20260826-1225, environment: Java 25.0.5 (Eclipse Adoptium)"
 )
 @Component
@@ -20,13 +20,10 @@ public class ProductCategoryMapperImpl implements ProductCategoryMapper {
             return null;
         }
 
-        String code = null;
-        String name = null;
+        String categoryCode = null;
+        String categoryName = null;
 
-        code = productCategory.getCode();
-        name = productCategory.getName();
-
-        ProductCategoryResponse productCategoryResponse = new ProductCategoryResponse( code, name );
+        ProductCategoryResponse productCategoryResponse = new ProductCategoryResponse( categoryCode, categoryName );
 
         return productCategoryResponse;
     }

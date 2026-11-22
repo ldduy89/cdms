@@ -121,12 +121,12 @@ public class Product extends BaseEntity {
 	private Boolean isActive = true;
 
 	@Builder.Default
-	@Column(name = "has_serial")
-	private Boolean hasSerial = false;
+	@Column(name = "is_tracking_serial")
+	private Boolean isTrackingSerial = false;
 
 	@Builder.Default
-	@Column(name = "has_expiration")
-	private Boolean hasExpiration = false;
+	@Column(name = "is_expiry_date")
+	private Boolean isExpiryDate = false;
 
 	@Builder.Default
 	@Column(name = "is_lot_number")

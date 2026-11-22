@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-11-21T16:02:03+0700",
+    date = "2026-11-22T12:20:03+0700",
     comments = "version: 1.6.3, compiler: Eclipse JDT (IDE) 3.46.100.v20260826-1225, environment: Java 25.0.5 (Eclipse Adoptium)"
 )
 @Component
@@ -99,8 +99,6 @@ public class ProductMapperImpl implements ProductMapper {
             return null;
         }
 
-        Boolean isExpiryDate = null;
-        Boolean isTrackingSerial = null;
         String avatarURL = null;
         List<ProductResponse.UnitResponse> units = null;
         List<ProductResponse.CategoryResponse> categories = null;
@@ -111,7 +109,9 @@ public class ProductMapperImpl implements ProductMapper {
         String sku = null;
         String partnerSKU = null;
         OutboundType outboundType = null;
+        Boolean isExpiryDate = null;
         Boolean isLotNumber = null;
+        Boolean isTrackingSerial = null;
         Integer numDaysWarningExpDate = null;
         Integer numDaysExportBeforeExpDate = null;
         String packingNote = null;
@@ -126,8 +126,6 @@ public class ProductMapperImpl implements ProductMapper {
         String countryOfOrigin = null;
         String refCode = null;
 
-        isExpiryDate = product.getHasExpiration();
-        isTrackingSerial = product.getHasSerial();
         avatarURL = product.getAvatarUrl();
         units = productUomListToUnitResponseList( product.getProductUOMs() );
         categories = productCategoryMappingListToCategoryResponseList( product.getProductCategories() );
@@ -138,7 +136,9 @@ public class ProductMapperImpl implements ProductMapper {
         sku = product.getSku();
         partnerSKU = product.getPartnerSKU();
         outboundType = product.getOutboundType();
+        isExpiryDate = product.getIsExpiryDate();
         isLotNumber = product.getIsLotNumber();
+        isTrackingSerial = product.getIsTrackingSerial();
         numDaysWarningExpDate = product.getNumDaysWarningExpDate();
         numDaysExportBeforeExpDate = product.getNumDaysExportBeforeExpDate();
         packingNote = product.getPackingNote();
@@ -170,8 +170,6 @@ public class ProductMapperImpl implements ProductMapper {
         Product.ProductBuilder product = Product.builder();
 
         product.avatarUrl( request.avatarURL() );
-        product.hasSerial( request.isTrackingSerial() );
-        product.hasExpiration( request.isExpiryDate() );
         product.sku( request.sku() );
         product.partnerSKU( request.partnerSKU() );
         product.productName( request.productName() );
@@ -194,6 +192,8 @@ public class ProductMapperImpl implements ProductMapper {
         product.isDiscreet( request.isDiscreet() );
         product.isIgnoreReceivedDate( request.isIgnoreReceivedDate() );
         product.isIgnoreIRId( request.isIgnoreIRId() );
+        product.isTrackingSerial( request.isTrackingSerial() );
+        product.isExpiryDate( request.isExpiryDate() );
         product.isLotNumber( request.isLotNumber() );
         product.minInboundShelfLife( request.minInboundShelfLife() );
         product.minOutboundShelfLife( request.minOutboundShelfLife() );
@@ -214,12 +214,6 @@ public class ProductMapperImpl implements ProductMapper {
 
         if ( request.avatarURL() != null ) {
             product.setAvatarUrl( request.avatarURL() );
-        }
-        if ( request.isTrackingSerial() != null ) {
-            product.setHasSerial( request.isTrackingSerial() );
-        }
-        if ( request.isExpiryDate() != null ) {
-            product.setHasExpiration( request.isExpiryDate() );
         }
         if ( request.sku() != null ) {
             product.setSku( request.sku() );
@@ -286,6 +280,12 @@ public class ProductMapperImpl implements ProductMapper {
         }
         if ( request.isIgnoreIRId() != null ) {
             product.setIsIgnoreIRId( request.isIgnoreIRId() );
+        }
+        if ( request.isTrackingSerial() != null ) {
+            product.setIsTrackingSerial( request.isTrackingSerial() );
+        }
+        if ( request.isExpiryDate() != null ) {
+            product.setIsExpiryDate( request.isExpiryDate() );
         }
         if ( request.isLotNumber() != null ) {
             product.setIsLotNumber( request.isLotNumber() );

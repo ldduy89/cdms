@@ -1,14 +1,27 @@
 package com.example.cdms.service.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.example.cdms.dto.ProductBySearchResponse;
 import com.example.cdms.dto.ProductCategoryRequest;
 import com.example.cdms.dto.ProductCategoryResponse;
 import com.example.cdms.dto.ProductCreateResponse;
@@ -16,25 +29,17 @@ import com.example.cdms.dto.ProductRequest;
 import com.example.cdms.dto.ProductRequest.BarcodeItemRequest;
 import com.example.cdms.dto.ProductRequest.ProductBundleDetailRequest;
 import com.example.cdms.dto.ProductRequest.ProductBundleItemRequest;
-import com.example.cdms.dto.ProductRequest.ProductUnitItemRequest;
 import com.example.cdms.dto.ProductResponse;
 import com.example.cdms.dto.ProductUnitResponse;
 import com.example.cdms.entity.Product;
-import com.example.cdms.entity.ProductBarcode;
-import com.example.cdms.entity.ProductBundle;
-import com.example.cdms.entity.ProductBundleDetail;
-import com.example.cdms.entity.ProductCategory;
-import com.example.cdms.entity.ProductCategoryMapping;
-import com.example.cdms.entity.ProductUom;
 import com.example.cdms.exception.ResourceNotFoundException;
 import com.example.cdms.mapper.ProductCategoryMapper;
 import com.example.cdms.mapper.ProductMapper;
 import com.example.cdms.mapper.ProductUnitMapper;
-import com.example.cdms.repository.ProductBarcodeRepository;
 import com.example.cdms.repository.ProductCategoryRepository;
 import com.example.cdms.repository.ProductRepository;
 import com.example.cdms.repository.ProductUnitRepository;
-import com.example.cdms.repository.jdbc.ProductBulkInserter;
+import com.example.cdms.repository.jdbc.ProductRepositoryJdbc;
 import com.example.cdms.service.ProductCategoryService;
 import com.example.cdms.service.ProductService;
 import com.example.cdms.service.ProductUnitService;
@@ -42,6 +47,7 @@ import com.example.cdms.service.ProductUnitService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import tools.jackson.databind.ObjectMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
 	private final ProductUnitMapper productUnitMapper;
 	private final ProductCategoryMapper productCategoryMapper;
 
-	private final ProductBulkInserter productBulkInserter;
+	private final ProductRepositoryJdbc productRepositoryJdbc;
 
 	private final ProductUnitService productUnitService;
 	private final ProductCategoryService productCategoryService;
@@ -64,10 +70,13 @@ public class ProductServiceImpl implements ProductService {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	private final ObjectMapper objectMapper;
+
 	@Override
-	public List<ProductResponse> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ProductBySearchResponse> search(String keyword, List<String> partnerSkus, List<String> skus,
+			int pageIndex, int pageSize) {
+		;
+		return productRepositoryJdbc.search(keyword, partnerSkus, skus, pageIndex, pageSize);
 	}
 
 	@Override
@@ -80,8 +89,8 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductCreateResponse> create(List<ProductRequest> requests) {
 		productUnitService.ensureUnits(requests);
 		productCategoryService.ensureCategories(requests);
-		Map<String, Long> ids = productBulkInserter.insertProducts(requests);
-		productBulkInserter.insertChildren(requests, ids);
+		Map<String, Long> ids = productRepositoryJdbc.insertProducts(requests);
+		productRepositoryJdbc.insertChildren(requests, ids);
 		List<ProductCreateResponse> result = new ArrayList<>();
 		Set<String> added = new HashSet<>();
 		for (ProductRequest r : requests) {
@@ -112,7 +121,7 @@ public class ProductServiceImpl implements ProductService {
 		product.getBarcodes().clear();
 		productRepository.saveAndFlush(product);
 
-		productBulkInserter.insertChildren(List.of(request), Map.of(product.getSku(), product.getProductId()));
+		productRepositoryJdbc.insertChildren(List.of(request), Map.of(product.getSku(), product.getProductId()));
 		entityManager.flush();
 		entityManager.clear();
 		Product newProduct = productRepository.findById(id)
@@ -128,6 +137,95 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductCategoryResponse> findAllProductCategories() {
 		return productCategoryRepository.findAll().stream().map(productCategoryMapper::toResponse).toList();
+	}
+
+	@Override
+	public List<ProductCreateResponse> importFile(MultipartFile file) throws IOException {
+		// TODO Auto-generated method stub
+		DataFormatter fmt = new DataFormatter();
+		List<ProductRequest> products = new ArrayList<>();
+		try (Workbook wb = WorkbookFactory.create(file.getInputStream())) {
+			Map<String, List<Map<String, Object>>> unitsBySku = readSheet(wb, "Units", fmt).stream()
+					.collect(Collectors.groupingBy(m -> m.get("sku").toString()));
+			Map<String, List<Map<String, Object>>> categoriesBySku = readSheet(wb, "Categories", fmt).stream()
+					.collect(Collectors.groupingBy(m -> m.get("sku").toString()));
+			Map<String, List<Map<String, Object>>> barcodesBySku = readSheet(wb, "Barcodes", fmt).stream()
+					.collect(Collectors.groupingBy(m -> m.get("sku").toString()));
+			Map<String, List<Map<String, Object>>> bundlesBySku = readSheet(wb, "Bundles", fmt).stream()
+					.collect(Collectors.groupingBy(m -> m.get("sku").toString()));
+			Map<String, List<Map<String, Object>>> bundleDetailsByKey = readSheet(wb, "BundleDetails", fmt).stream()
+					.collect(Collectors.groupingBy(m -> m.get("sku").toString() + "|" + m.get("childSku").toString()));
+
+			for (Map<String, Object> o : readSheet(wb, "Products", fmt)) {
+				o.put("units", unitsBySku.get(o.get("sku").toString()));
+				o.put("categories", categoriesBySku.get(o.get("sku").toString()));
+				o.put("barcodes", barcodesBySku.get(o.get("sku").toString()));
+				List<Map<String, Object>> bundles = bundlesBySku.get(o.get("sku").toString());
+				if (bundles != null) {
+					for (Map<String, Object> b : bundles) {
+						b.put("bundleDetails",
+								bundleDetailsByKey.get(b.get("sku").toString() + "|" + b.get("childSku").toString()));
+					}
+				}
+				o.put("productBundles", bundles);
+				products.add(objectMapper.convertValue(o, ProductRequest.class));
+			}
+		}
+
+		return this.create(products);
+	}
+
+	private List<Map<String, Object>> readSheet(Workbook wb, String name, DataFormatter fmt) {
+		Sheet s = wb.getSheet(name);
+		if (s == null) {
+			return List.of();
+		}
+		Map<String, Integer> cols = new HashMap<>();
+
+		for (Cell c : s.getRow(0)) {
+			String key = fmt.formatCellValue(c).trim();
+			if (!key.isEmpty()) {
+				cols.put(key, c.getColumnIndex());
+			}
+		}
+
+		List<Map<String, Object>> out = new ArrayList<>();
+
+		for (int r = 1; r <= s.getLastRowNum(); r++) {
+			Row row = s.getRow(r);
+			if (row == null || isBlankRow(row, fmt)) {
+				continue;
+			}
+			Map<String, Object> m = new LinkedHashMap<>();
+			for (String col : cols.keySet()) {
+				Integer idx = cols.get(col);
+				if (idx == null) {
+					continue;
+				}
+				Cell cell = row.getCell(idx, MissingCellPolicy.RETURN_NULL_AND_BLANK);
+				if (cell == null) {
+					continue;
+				}
+				String value = fmt.formatCellValue(cell).trim();
+
+				if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
+					value = value.toLowerCase();
+				}
+
+				m.put(col, value.isEmpty() ? null : value);
+			}
+			out.add(m);
+		}
+		return out;
+	}
+
+	private boolean isBlankRow(Row row, DataFormatter fmt) {
+		for (Cell c : row) {
+			if (!fmt.formatCellValue(c).trim().isEmpty()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }
