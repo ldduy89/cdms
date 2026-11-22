@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: cdms
+      POSTGRES_USER: myapi
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-root}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myapi -d cdms"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/cdms
+      SPRING_DATASOURCE_USERNAME: myapi
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-root}
+      CDMS_SYNC_ENABLED: "false"
+      CDMS_WEBHOOK_ENABLED: "false"
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
