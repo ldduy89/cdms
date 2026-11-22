@@ -22,6 +22,8 @@ import com.example.cdms.dto.ProductCreateResponse;
 import com.example.cdms.dto.ProductRequest;
 import com.example.cdms.dto.ProductResponse;
 import com.example.cdms.dto.ProductUnitResponse;
+import com.example.cdms.dto.ProductUomRequest;
+import com.example.cdms.dto.ProductUomResponse;
 import com.example.cdms.service.ProductService;
 
 import jakarta.validation.Valid;
@@ -47,10 +49,12 @@ public class ProductController {
 		return productService.findByPartnerSKU(parterSKU);
 	}
 
-	@PostMapping
-	public ResponseEntity<List<ProductCreateResponse>> create(@Valid @RequestBody List<ProductRequest> request) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(request));
+
+	@PostMapping("/units")
+	public ResponseEntity<List<ProductUomResponse>> createUom(@Valid @RequestBody List<ProductUomRequest> request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(productService.createUom(request));
 	}
+	
 	@PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<List<ProductCreateResponse>> importExcel(@RequestParam MultipartFile file) throws IOException {
 		if (file.isEmpty()) {
@@ -63,6 +67,11 @@ public class ProductController {
 		return ResponseEntity.ok(productService.importFile(file));
 	}
 
+
+	@PostMapping
+	public ResponseEntity<List<ProductCreateResponse>> create(@Valid @RequestBody List<ProductRequest> request) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(request));
+	}
 	@PutMapping("/{id}")
 	public ProductResponse update(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
 		return productService.update(id, request);
@@ -77,5 +86,7 @@ public class ProductController {
 	public List<ProductCategoryResponse> getAllCategories() {
 		return productService.findAllProductCategories();
 	}
+	
+	
 
 }

@@ -11,6 +11,8 @@ import com.example.cdms.dto.ProductCreateResponse;
 import com.example.cdms.dto.ProductRequest;
 import com.example.cdms.dto.ProductResponse;
 import com.example.cdms.dto.ProductUnitResponse;
+import com.example.cdms.dto.ProductUomRequest;
+import com.example.cdms.dto.ProductUomResponse;
 
 public interface ProductService {
 	List<ProductBySearchResponse> search(String keyword, List<String> partnerSkus, List<String> skus, int pageIndex,
@@ -19,6 +21,8 @@ public interface ProductService {
 	ProductResponse findByPartnerSKU(String partnerSKU);
 
 	List<ProductCreateResponse> create(List<ProductRequest> request);
+	
+	List<ProductUomResponse> createUom(List<ProductUomRequest> request);
 
 	ProductResponse update(Long id, ProductRequest request);
 

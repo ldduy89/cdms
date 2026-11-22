@@ -22,20 +22,21 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.cdms.dto.ProductBySearchResponse;
-import com.example.cdms.dto.ProductCategoryRequest;
 import com.example.cdms.dto.ProductCategoryResponse;
 import com.example.cdms.dto.ProductCreateResponse;
 import com.example.cdms.dto.ProductRequest;
-import com.example.cdms.dto.ProductRequest.BarcodeItemRequest;
-import com.example.cdms.dto.ProductRequest.ProductBundleDetailRequest;
-import com.example.cdms.dto.ProductRequest.ProductBundleItemRequest;
 import com.example.cdms.dto.ProductResponse;
 import com.example.cdms.dto.ProductUnitResponse;
+import com.example.cdms.dto.ProductUomRequest;
+import com.example.cdms.dto.ProductUomResponse;
 import com.example.cdms.entity.Product;
+import com.example.cdms.entity.ProductUnit;
+import com.example.cdms.entity.ProductUom;
 import com.example.cdms.exception.ResourceNotFoundException;
 import com.example.cdms.mapper.ProductCategoryMapper;
 import com.example.cdms.mapper.ProductMapper;
 import com.example.cdms.mapper.ProductUnitMapper;
+import com.example.cdms.mapper.ProductUomMapper;
 import com.example.cdms.repository.ProductCategoryRepository;
 import com.example.cdms.repository.ProductRepository;
 import com.example.cdms.repository.ProductUnitRepository;
@@ -61,6 +62,7 @@ public class ProductServiceImpl implements ProductService {
 	private final ProductMapper productMapper;
 	private final ProductUnitMapper productUnitMapper;
 	private final ProductCategoryMapper productCategoryMapper;
+	private final ProductUomMapper productUomMapper;
 
 	private final ProductRepositoryJdbc productRepositoryJdbc;
 
@@ -226,6 +228,44 @@ public class ProductServiceImpl implements ProductService {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public List<ProductUomResponse> createUom(List<ProductUomRequest> requests) {
+		Set<String> skus = requests.stream().map(ProductUomRequest::sku).collect(Collectors.toSet());
+		Map<String, Product> products = productRepository.findAllBySkuIn(skus).stream()
+				.collect(Collectors.toMap(Product::getSku, p -> p));
+
+		List<String> missingSkus = skus.stream().filter(s -> !products.containsKey(s)).toList();
+
+		if (!missingSkus.isEmpty()) {
+			throw new ResourceNotFoundException("sku not found: " + String.join(", ", missingSkus));
+		}
+
+		Set<String> unitCodes = requests.stream().map(ProductUomRequest::unitCode).collect(Collectors.toSet());
+		Map<String, ProductUnit> units = productUnitRepository.findByCodeIn(unitCodes).stream()
+				.collect(Collectors.toMap(ProductUnit::getCode, u -> u));
+
+		List<String> missingUnits = unitCodes.stream().filter(c -> !units.containsKey(c)).toList();
+
+		if (!missingUnits.isEmpty()) {
+			throw new ResourceNotFoundException("unitCode not found: " + String.join(", ", missingUnits));
+		}
+		List<ProductUom> uoms = new ArrayList<>();
+		for (ProductUomRequest r : requests) {
+			Product product = products.get(r.sku());
+			ProductUom uom = ProductUom.builder()
+					.unit(units.get(r.unitCode()))
+					.baseUnitQty(r.baseUnitQty())
+					.length(r.length()).width(r.width()).height(r.height()).weight(r.weight())
+					.costPrice(r.costPrice()).sellingPrice(r.sellingPrice())
+					.isBaseUnit(false)
+					.isStockConversionEnabled(false)
+					.build();
+			uom.setProduct(product);
+			uoms.add(uom);
+		}
+		return productUomMapper.toResponses(productRepositoryJdbc.inserProductUom(uoms));
 	}
 
 }

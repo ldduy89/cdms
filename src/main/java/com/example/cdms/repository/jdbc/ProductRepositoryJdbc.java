@@ -23,6 +23,8 @@ import com.example.cdms.dto.ProductRequest.BarcodeItemRequest;
 import com.example.cdms.dto.ProductRequest.ProductBundleDetailRequest;
 import com.example.cdms.dto.ProductRequest.ProductBundleItemRequest;
 import com.example.cdms.dto.ProductRequest.ProductUnitItemRequest;
+import com.example.cdms.entity.ProductUom;
+import com.example.cdms.entity.ProductUom;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -257,5 +259,36 @@ public class ProductRepositoryJdbc {
 			ids.put(rs.getString("sku"), rs.getLong("product_id"));
 		}, skus.toArray());
 		return ids;
+	}
+
+	public List<ProductUom> inserProductUom(List<ProductUom> uoms) {
+		List<Object> params = new ArrayList<>();
+		for (ProductUom u : uoms) {
+			params.addAll(Arrays.<Object>asList(u.getProduct().getProductId(), u.getUnit().getCode(),
+					u.getBaseUnitQty(), u.getWeight(), u.getLength(), u.getWidth(), u.getHeight(), u.getCostPrice(),
+					u.getSellingPrice(), u.getIsBaseUnit(), u.getIsStockConversionEnabled()));
+		}
+
+		Map<String, Long> ids = new HashMap<>();
+		
+		final int cols = 11;
+		String row = "(" + "?, ".repeat(10) + "?, now(), now())";
+		String sql = """
+				INSERT INTO product_uom (product_id, unit_code, base_unit_qty, weight, length, width, height,
+					cost_price, selling_price, is_base_unit, is_stock_conversion_enabled, created_at, updated_at)
+				VALUES """
+				+ String.join(", ", Collections.nCopies(uoms.size(), row))
+				+ " RETURNING product_uom_id, product_id, unit_code";
+
+		
+		jdbcTemplate.query(sql, rs -> {
+			ids.put(rs.getLong("product_id") + "|" + rs.getString("unit_code"), rs.getLong("product_uom_id"));
+		}, params.toArray());
+
+		for (ProductUom u : uoms) {
+			String key = u.getProduct().getProductId() + "|" + u.getUnit().getCode();
+			u.setProductUomId(ids.get(key));
+		}
+		return uoms;
 	}
 }
