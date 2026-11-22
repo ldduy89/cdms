@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.cdms.dto.ProductCategoryRequest;
 import com.example.cdms.dto.ProductRequest;
+import com.example.cdms.dto.ProductRequest.CategoryRequest;
 import com.example.cdms.entity.ProductCategory;
 import com.example.cdms.repository.ProductCategoryRepository;
 import com.example.cdms.service.ProductCategoryService;
@@ -30,9 +31,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 		Map<String, String> names = new LinkedHashMap<>();
 		for (ProductRequest r : requests) {
 
-			for (ProductCategoryRequest c : r.categories()) {
-				String code = c.code();
-				String name = c.name();
+			for (CategoryRequest c : r.categories()) {
+				String code = c.categoryCode();
+				String name = c.categoryName();
 				String current = names.get(code);
 
 				if (code != null && !code.isBlank() && name != null && !name.isBlank() && current == null) {

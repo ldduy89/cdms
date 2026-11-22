@@ -184,8 +184,8 @@ public class ProductRepositoryJdbc {
 
 			Set<String> seenCategories = new HashSet<>();
 			for (var c : r.categories()) {
-				if (seenCategories.add(c.code())) {
-					categoryRows.add(new Object[] { productId, c.code() });
+				if (seenCategories.add(c.categoryCode())) {
+					categoryRows.add(new Object[] { productId, c.categoryCode() });
 				}
 			}
 

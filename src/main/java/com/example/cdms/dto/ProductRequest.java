@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public record ProductRequest(@NotBlank String unitCode, String unitName,
-		@NotEmpty @Valid List<ProductCategoryRequest> categories, @NotBlank String sku, String partnerSKU,
+		@NotEmpty @Valid List<CategoryRequest> categories, @NotBlank String sku, String partnerSKU,
 		@NotBlank String productName, Integer serialType, OutboundType outboundType, Boolean isExpiryDate,
 		Boolean isLotNumber, Boolean isTrackingSerial, Integer numDaysWarningExpDate,
 		Integer numDaysExportBeforeExpDate, String packingNote, String avatarURL, AssetType assetType,
@@ -46,6 +46,9 @@ public record ProductRequest(@NotBlank String unitCode, String unitName,
 			assetType = AssetType.SINGLE;
 		if (outboundType == null)
 			outboundType = OutboundType.NOT_DEFINED;
+	}
+
+	public record CategoryRequest(String categoryCode, String categoryName) {
 	}
 
 	public record ProductBundleItemRequest(String sku, String unitCode, Integer qty, Double availablePercentage,

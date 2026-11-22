@@ -25,10 +25,10 @@ public class ProductSyncJob {
 	@Scheduled(cron = "0 0 2 * * *")
 	public void run() {
 		try {
-			List<ProductRequest>  source = restClientBuilder.build().get().uri("").retrieve()
+			List<ProductRequest> productRequests = restClientBuilder.build().get().uri("").retrieve()
 					.body(new ParameterizedTypeReference<List<ProductRequest>>() {
 					});
-			productService.create(source);
+			productService.create(productRequests);
 		} catch (RestClientException e) {
 			return;
 		}

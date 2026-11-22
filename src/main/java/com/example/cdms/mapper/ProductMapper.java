@@ -40,7 +40,6 @@ public interface ProductMapper {
     @Mapping(target = "productBarcodes", source = "barcodes")
     ProductResponse toResponse(Product product);
 
-
     @Mapping(target = "productId", ignore = true)
     @Mapping(target = "unit", ignore = true)
     @Mapping(target = "productUOMs", ignore = true)

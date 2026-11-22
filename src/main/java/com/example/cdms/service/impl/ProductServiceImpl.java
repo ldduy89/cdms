@@ -159,7 +159,7 @@ public class ProductServiceImpl implements ProductService {
 					.collect(Collectors.groupingBy(m -> m.get("sku").toString() + "|" + m.get("childSku").toString()));
 
 			for (Map<String, Object> o : readSheet(wb, "Products", fmt)) {
-				o.put("units", unitsBySku.get(o.get("sku").toString()));
+				o.put("productUnits", unitsBySku.get(o.get("sku").toString()));
 				o.put("categories", categoriesBySku.get(o.get("sku").toString()));
 				o.put("barcodes", barcodesBySku.get(o.get("sku").toString()));
 				List<Map<String, Object>> bundles = bundlesBySku.get(o.get("sku").toString());
