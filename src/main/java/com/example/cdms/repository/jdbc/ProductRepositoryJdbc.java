@@ -40,15 +40,16 @@ public class ProductRepositoryJdbc {
 			"size", "packing_note", "avatar_url", "hs_code", "country_of_origin", "product_tax_code",
 			"product_tax_name", "tax_rate", "ref_code", "unit_code", "asset_type", "serial_type", "outbound_type",
 			"warehouse_category", "is_physical", "is_bar_code", "is_discreet", "is_ignore_received_date",
-			"is_ignore_ir_id", "is_active", "is_tracking_serial", "is_expiry_date", "is_lot_number", "min_inbound_shelf_life",
-			"min_outbound_shelf_life", "num_days_warning_exp_date", "num_days_export_before_exp_date", "product_life",
-			"outbound_limit_condition_code", "expired_condition_code");
+			"is_ignore_ir_id", "is_active", "is_tracking_serial", "is_expiry_date", "is_lot_number",
+			"min_inbound_shelf_life", "min_outbound_shelf_life", "num_days_warning_exp_date",
+			"num_days_export_before_exp_date", "product_life", "outbound_limit_condition_code",
+			"expired_condition_code");
 
 	public List<ProductBySearchResponse> search(String keyword, List<String> partnerSkus, List<String> skus,
 			int pageIndex, int pageSize) {
 		StringBuilder sql = new StringBuilder("""
 				SELECT p.product_id, p.sku, p.partner_sku, p.product_name, p.asset_type,
-				       p.has_serial, p.has_expiration, p.color, p.size, p.description, p.is_active
+				       p.is_tracking_serial, p.is_expiry_date, p.color, p.size, p.description, p.is_active
 				FROM product p
 				WHERE 1 = 1
 				""");
@@ -78,7 +79,7 @@ public class ProductRepositoryJdbc {
 		List<ProductBySearchResponse> base = jdbcTemplate.query(sql.toString(),
 				(rs, n) -> new ProductBySearchResponse(rs.getLong("product_id"), rs.getString("product_name"),
 						rs.getString("sku"), rs.getString("partner_sku"), rs.getString("asset_type"),
-						rs.getBoolean("has_serial"), rs.getBoolean("has_expiration"), rs.getString("color"),
+						rs.getBoolean("is_tracking_serial"), rs.getBoolean("is_expiry_date"), rs.getString("color"),
 						rs.getString("size"), rs.getString("description"), rs.getBoolean("is_active"), List.of(),
 						List.of()),
 				params.toArray());
